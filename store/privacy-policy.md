@@ -37,4 +37,4 @@ store and use them, including under data-protection law and Instagram's terms.
 
 If this policy changes, the new version will be published at this address with a new date.
 
-Questions: YOUR-CONTACT-EMAIL
+Questions: open an issue at https://github.com/charonova/comments-exporter-for-instagram/issues

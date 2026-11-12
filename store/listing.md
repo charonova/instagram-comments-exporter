@@ -83,8 +83,9 @@ package; there is no `eval` and no externally loaded script.)
 - Tick all three certifications (no selling or transferring data, no use unrelated to the single
   purpose, no creditworthiness or lending use).
 
-**Privacy policy URL**: publish the text in `store/privacy-policy.md` on a public page (your site,
-GitHub Pages, or a public document) and paste its address. Put your contact address in it first.
+**Privacy policy URL**: `https://github.com/charonova/comments-exporter-for-instagram/blob/main/PRIVACY.md`
+once `store/privacy-policy.md` is published there as `PRIVACY.md`. The policy's contact line points
+at that repository's issues page, which also works as the listing's Support URL.
 
 ## Distribution tab
 
