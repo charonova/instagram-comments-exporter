@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Rows bubble</title>
+  <path d="M62 24H194A30 30 0 0 1 224 54V66A6 6 0 0 1 218 72H38A6 6 0 0 1 32 66V54A30 30 0 0 1 62 24Z"/>
+  <rect x="32" y="82" width="192" height="48" rx="6"/>
+  <path d="M38 140H218A6 6 0 0 1 224 146V158A30 30 0 0 1 194 188H104L62 230V188A30 30 0 0 1 32 158V146A6 6 0 0 1 38 140Z"/>
+</svg>

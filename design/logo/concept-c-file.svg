@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Folded bubble</title>
+  <path d="M64 28H140V108H220V156A28 28 0 0 1 192 184H112L68 228V184H64A28 28 0 0 1 36 156V56A28 28 0 0 1 64 28Z"/>
+  <path d="M152 28L220 96H152Z"/>
+</svg>

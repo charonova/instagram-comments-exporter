@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Tail arrow</title>
+  <path d="M68 24H188A36 36 0 0 1 224 60V132A36 36 0 0 1 188 168H140V90H116V168H68A36 36 0 0 1 32 132V60A36 36 0 0 1 68 24Z"/>
+  <path d="M80 184H176L128 232Z"/>
+</svg>

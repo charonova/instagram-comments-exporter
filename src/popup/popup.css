@@ -1,0 +1,65 @@
+:root {
+  color-scheme: light dark;
+  --paper: #fbfcf7;
+  --ink: #17211b;
+  --soft: #55655b;
+  --pen: #2340c8;
+  --on-pen: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111a15;
+    --ink: #e6efe8;
+    --soft: #9fb1a5;
+    --pen: #a3bbff;
+    --on-pen: #0c1638;
+  }
+}
+
+body {
+  width: 280px;
+  margin: 0;
+  padding: 16px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  font: 600 18px/1.2 ui-serif, "New York", "Iowan Old Style", Charter, Georgia, Cambria, serif;
+}
+
+p {
+  margin: 12px 0 0;
+  color: var(--soft);
+}
+
+button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--pen);
+  color: var(--on-pen);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none;
+}
