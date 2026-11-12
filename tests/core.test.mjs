@@ -246,3 +246,21 @@ test('logged out, a "please wait" answer is reported as a login problem instead 
     globalThis.document.cookie = cookies;
   }
 });
+
+test('the post owner is asked for separately when the comments response leaves it out', async () => {
+  const flag = '__relay_internal__pv__PolarisLikedByAuthorBadgeEnabledrelayprovider';
+  const calls = fakeInstagram(({ variables }) => {
+    const media = { comments_connection: connection([node('1')], null) };
+    if (variables[flag] === true) media.user = { id: '777', profile_pic_url: '' };
+    return reply(200, { data: { comments_media: media } });
+  });
+  const job = await core.loadComments({ loggedIn: true });
+  assert.equal(job.ownerId, '777');
+  assert.deepEqual(calls.map((c) => c.variables[flag]), [false, true], 'the normal request is left as the web app sends it');
+
+  // If that extra request fails, loading still finishes and the owner stays unknown.
+  fakeInstagram(({ variables }) => (variables[flag] === true ? reply(200, { errors: [{ message: 'nope' }] }) : reply(200, { data: { comments_media: { comments_connection: connection([node('1')], null) } } })));
+  const second = await core.loadComments({ loggedIn: true });
+  assert.equal(second.finished, true);
+  assert.equal(second.ownerId, '');
+});

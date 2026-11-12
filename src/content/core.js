@@ -324,6 +324,13 @@
     return '';
   }
 
+  // Instagram includes the post's owner in the comments response only when its "liked by author"
+  // badge is switched on for the viewer, so this asks for one page with that switch on.
+  async function lookUpOwner(op, post, signal) {
+    const withOwner = { ...op, provided: { ...op.provided, __relay_internal__pv__PolarisLikedByAuthorBadgeEnabledrelayprovider: true } };
+    return findOwnerId(await send(withOwner, { after: null, first: COMMENT_PAGE_SIZES[1], media_id: post.mediaId, sort_order: 'popular' }, signal));
+  }
+
   async function pageThrough(op, makeVariables, sizes, onNodes, ctx) {
     let after = null;
     let size = sizes[0];
@@ -403,8 +410,9 @@
     const seen = new Set();
 
     job.phase = 'comments';
+    const commentsOp = resolveOp(job.loggedIn ? 'comments' : 'loggedOutComments');
     await pageThrough(
-      resolveOp(job.loggedIn ? 'comments' : 'loggedOutComments'),
+      commentsOp,
       (after, first) => (job.loggedIn ? { after, first, media_id: post.mediaId, sort_order: 'popular' } : { after, first, media_id: post.mediaId }),
       COMMENT_PAGE_SIZES,
       (nodes, data) => {
@@ -417,6 +425,15 @@
       },
       ctx,
     );
+
+    if (job.loggedIn && !job.ownerId) {
+      // Best effort: without the owner, the follow check falls back to the logged-in account.
+      try {
+        job.ownerId = await lookUpOwner(commentsOp, post, signal);
+      } catch (err) {
+        if (err && err.name === 'AbortError') throw err;
+      }
+    }
 
     if (includeReplies && job.loggedIn) {
       const repliesOp = resolveOp('replies');

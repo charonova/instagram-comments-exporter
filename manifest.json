@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Instagram Comments Exporter",
+  "name": "Comments Exporter for Instagram",
   "short_name": "Comments Exporter",
-  "version": "1.2.0",
-  "description": "Load every comment and reply on an Instagram post, sort and filter them, and download CSV, Excel or JSON. Nothing leaves your browser.",
+  "version": "1.3.0",
+  "description": "Export Instagram post comments and replies to CSV, Excel or JSON. Sort, filter, check who follows you. Nothing leaves your browser.",
   "minimum_chrome_version": "111",
   "icons": {
     "16": "assets/icons/icon-16.png",

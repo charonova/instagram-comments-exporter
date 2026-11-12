@@ -1,6 +1,6 @@
 <img src="assets/brand/icon-512.png" width="88" alt="Comments Exporter icon" />
 
-# Instagram Comments Exporter
+# Comments Exporter for Instagram
 
 A Chrome extension that loads the comments and replies of an Instagram post, lets you sort and
 filter them, and downloads the result as CSV, Excel or JSON.
@@ -56,8 +56,11 @@ example one per person, or a minimum number of mentions) and then run the check.
   not looked up. `Unclear` in the preview means the search had more matches than were read and the
   person was not among them.
 - **Stop checking** keeps the answers so far; pressing the button again continues with the rest.
-- It needs a logged-in session. On a post from another account it checks that account's followers,
-  and Instagram only shows part of other accounts' follower lists, so some followers can be missed.
+- It needs a logged-in session, and it is empty until you run it. The button is greyed out while
+  comments are still loading.
+- It checks the followers of the account that posted. Instagram only shows part of other accounts'
+  follower lists, so log in as the page itself for a complete answer. If the owner cannot be
+  worked out, the button says it will check the account you are logged in with.
 
 ## Files it writes
 
@@ -95,6 +98,9 @@ assets/brand/            icon sources: icon.svg, icon-small.svg (drawn for 16/32
 design/logo/             logo concepts and colour trials (not shipped)
 tests/                   unit tests and the end-to-end smoke test
 scripts/package.mjs      builds the release zip
+scripts/store-assets.mjs renders the store screenshots and promo tiles from demo data
+scripts/lib/chrome.mjs   starts the throwaway Chrome the smoke test and store-assets use
+store/                   Chrome Web Store listing: text for every field, privacy policy, images
 ```
 
 The three content scripts run in the page's own JavaScript world, in the order above, and share
@@ -107,8 +113,9 @@ Needs Node 22 or newer. There are no dependencies to install.
 | Command | What it does |
 | --- | --- |
 | `npm test` | Unit tests for loading (against a stand-in for Instagram) and for sorting, filtering and the three file formats. Offline, under a second. |
-| `npm run smoke` | Starts a throwaway Chrome, loads this folder as an unpacked extension and drives the popup and the exporter on a public post, logged out. Add `-- <post url>` for another post and `-- --shots <dir>` for screenshots. Set `CHROME` if Chrome is not in `/Applications`. |
+| `npm run smoke` | Starts a throwaway Chrome, loads this folder as an unpacked extension and drives the popup and the exporter on a public post, logged out. Instagram stops serving comments to logged-out visitors after repeated runs from the same network, which fails the loading check until it lifts. Add `-- <post url>` for another post and `-- --shots <dir>` for screenshots. Set `CHROME` if Chrome is not in `/Applications`. |
 | `npm run package` | Writes `dist/instagram-comments-exporter-<version>.zip` with only what Chrome needs, for the Chrome Web Store or for sharing. |
+| `npm run store-assets` | Re-renders `store/screenshots/` and the promo tiles. It drives the exporter with made-up comments on a blank page, so no real people appear and Instagram is not contacted. |
 
 Two things to keep in mind when editing:
 
@@ -117,6 +124,13 @@ Two things to keep in mind when editing:
   the code notice (`formats.js` builds them from char codes; a unit test guards this).
 - The PNG icons are rendered from the SVGs in `assets/brand/`: `icon-small.svg` at 16 and 32 px,
   `icon.svg` at 48 px, and at 96 px centred on a 128 px canvas (the Chrome Web Store layout).
+
+## Publishing to the Chrome Web Store
+
+`store/listing.md` has the text for every field of the Developer Dashboard, tab by tab, and points
+at the images to upload. `store/privacy-policy.md` is the policy to host at a public address.
+The store rejects a package whose manifest description is longer than 132 characters or whose
+files are missing; `npm test` checks both.
 
 ## If it stops working
 

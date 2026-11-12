@@ -461,8 +461,8 @@
       people.add(row.user_id);
       tally[row.follows_account === true ? 'yes' : row.follows_account === false ? 'no' : row.follows_account === null ? 'unclear' : 'pending']++;
     }
-    const ownPost = !job.ownerId || job.ownerId === job.viewerId;
-    const account = ownPost ? 'your account' : 'the account that posted';
+    const otherAccount = Boolean(job.ownerId) && job.ownerId !== job.viewerId;
+    const account = !job.ownerId ? 'the account you are logged in with' : otherAccount ? 'the account that posted' : 'your account';
     const results = tally.yes + tally.no + tally.unclear
       ? `${tally.yes.toLocaleString()} follow ${account}, ${tally.no.toLocaleString()} do not${tally.unclear ? `, ${tally.unclear.toLocaleString()} unclear` : ''}.`
       : '';
@@ -470,14 +470,16 @@
     followButton.disabled = running;
     followButton.textContent = checking ? 'Stop checking' : results ? `Check ${count(tally.pending, 'more person', 'more people')}` : `Check who follows ${account}`;
     followRow.classList.toggle('error', Boolean(state.follow.error) && !checking);
-    if (checking) {
+    if (running) {
+      followStatus.textContent = 'Available when loading finishes. Press Stop to check the comments loaded so far.';
+    } else if (checking) {
       const { done = 0, total = 0 } = state.follow.progress;
       followStatus.textContent = `Checked ${done.toLocaleString()} of ${count(total, 'person', 'people')}. ${results}`;
     } else if (state.follow.error) {
       followStatus.textContent = `${state.follow.error} ${results}`;
     } else if (tally.pending) {
       const minutes = Math.max(1, Math.round((tally.pending * 2.3) / 60));
-      const caveat = ownPost ? '' : ' Instagram shows only part of another account’s followers, so some may be missed.';
+      const caveat = otherAccount ? ' Instagram shows only part of another account’s followers, so some may be missed. Log in as that account for a complete answer.' : '';
       followStatus.textContent = `${results} ${count(tally.pending, 'person', 'people')} in this selection to look up, one request each: about ${minutes} min.${caveat}`.trim();
     } else {
       followStatus.textContent = results;
